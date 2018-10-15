@@ -1,2 +1,2 @@
-# ps_basic_tools
-# basic helpdesk PS functions 
+some basic powershell functions for everyday use 
+as well as profile settings 
