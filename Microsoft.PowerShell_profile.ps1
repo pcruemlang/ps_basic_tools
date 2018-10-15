@@ -26,4 +26,7 @@ Write-Host "$($executionContext.SessionState.Path.CurrentLocation)" -foregroundc
 Write-Output "$('>' * ($nestedPromptLevel + 1)) "  
 }
 prompt
-
+function set-remote{
+$computer = read-host "enter PC "
+.\psexec \\$computer -u $computer\admin  reg add "hklm\system\currentcontrolset\control\terminal server" /f /v fDenyTSConnections /t REG_DWORD /d 0
+}
