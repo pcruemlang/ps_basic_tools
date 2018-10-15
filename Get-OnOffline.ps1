@@ -1,17 +1,17 @@
-function get-OnOffline
+function get-OnOffline {
 <# 
-
 .DESCRIPTION
-
 this will check all pc's if they're online or offline no input needed 
-
 .EXAMPLE
-
  get-OnOffline 
-
 #>
-{
-$computers  = Get-ADComputer -description "*ptpres*" 
+[cmdletBinding()] 
+Param( 
+[Parameter(Mandatory=$True)] 
+[string]$ou
+Import-Module Activedirectory
+$ou = "OU=$ou,"+(Get-ADRootDSE).defaultNamingContext
+$computers = get-adcomputer -filter * -searchbase $ou 
 foreach ($computer in $computers) 
 {
 $pcdesc = $computer.description
