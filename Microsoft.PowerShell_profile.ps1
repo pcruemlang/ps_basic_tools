@@ -30,3 +30,7 @@ function set-remote{
 $computer = read-host "enter PC "
 .\psexec \\$computer -u $computer\admin  reg add "hklm\system\currentcontrolset\control\terminal server" /f /v fDenyTSConnections /t REG_DWORD /d 0
 }
+function serach-groups{
+$target = read-host "Enter search term "
+get-adgroup -filter {name -like "*$target*"} -properties * | select name,@{N="Owner";E={$_.ManagedBy.split(",")[0]}},@{N="ID";E={$_.SamAccountName}} 
+}
