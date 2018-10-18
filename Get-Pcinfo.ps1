@@ -9,13 +9,15 @@ see examples or if the pc is offline it will get only the description.
 
 .EXAMPLE
 
-get-pc snowden 
+get-pc username  
 
 .EXAMPLE
 
-get-pc -sam zur000pc 
+get-pc -name pcnumber   
 
 #>
+Add-PSSnapin Quest.ActiveRoles.ADManagement # works with this snapin for powershell 2.0 
+Import-Module Activedirectory
 [CmdletBinding()]
 param(
 [Parameter(Mandatory=$True)]
@@ -54,12 +56,11 @@ $datei = @{
             'User ' = $pcdesc;
             'last booted' = $COS.ConvertToDateTime($COS.LastBootUpTime);
             'Model' = $CHW.Model;
- 	        'PC Serial' = $CBIOS.SerialNumber;
+ 	'PC Serial' = $CBIOS.SerialNumber;
             'CPU Name' = $CCPU.Name;
             'RAM' = "{0:n1} GB"  -f [math]::Round($CHW.TotalPhysicalMemory/1GB);
             'Total Disk Space ' = "{0:n0} GB"  -f [math]::Round($CDisks.size/1GB);
             'Total Free Space ' = "{0:n0} GB"  -f [math]::Round($CDisks.freespace/1GB);
-            'Docking station' =  $DSER.SerialNumber;
             }
 
 $dateien = new-object -typename PSObject -property $datei
