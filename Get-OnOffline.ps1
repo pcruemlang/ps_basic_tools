@@ -3,7 +3,7 @@ function get-OnOffline {
 .DESCRIPTION
 this will check all pc's if they're online or offline no input needed 
 .EXAMPLE
- get-OnOffline 
+ get-OnOffline -ou bikinibottom
 #>
 [cmdletBinding()] 
 Param( 
