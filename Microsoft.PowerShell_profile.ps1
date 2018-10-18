@@ -32,5 +32,5 @@ $computer = read-host "enter PC "
 }
 function serach-groups{
 $target = read-host "Enter search term "
-get-adgroup -filter {name -like "*$target*"} -properties * | select name,@{N="Owner";E={$_.ManagedBy.split(",")[0]}},@{N="ID";E={$_.SamAccountName}} 
+get-adgroup -filter {name -like "*$target*"} -properties * | select name,@{N="Owner";E={$_.ManagedBy.split("="",")[1]}},@{N="ID";E={$_.SamAccountName}} 
 }
