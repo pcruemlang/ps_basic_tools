@@ -1,7 +1,7 @@
 # creates user with a pre formatted CSV file 
 # works with powershell PSVersion  2.0
 # from goateepfe 
-$p = import-csv "C:\Scripts\Zurich_Helpdesk\users.csv" -Delimiter ";"
+$p = import-csv "$path\users.csv" -Delimiter ";"
 $p | select-object Title, Department,City, state, office, EmployeeID,`
 @{n='name';e={($_.'First Name'.substring(0,3)+$_.'last Name').substring(0,7)}}, `
 @{n='samaccountname';e={($_.'First Name'.substring(0,3)+$_.'last Name').substring(0,6)}},`
