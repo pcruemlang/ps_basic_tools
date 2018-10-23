@@ -15,8 +15,8 @@ Param(
 [Parameter(Mandatory=$True)] 
 [string]$user 
 ) 
-$ErrorActionPreference = “SilentlyContinue”
-trap { write-warning = "Error caught : $_ " } 
+$ErrorActionPreference= 'silentlycontinue'
+trap { write-host  " [-] Action cancelled : $_ " -foregroundcolor Cyan}  
 $de = [ADSI]"WinNT://$computer/$Group,group" 
 $de.psbase.Invoke("add",([ADSI]"WinNT://global/$user").path) 
 }
