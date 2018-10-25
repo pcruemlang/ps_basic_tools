@@ -26,6 +26,7 @@ $data.add("pw",("{0:1}" -f ($abfrage.physicalDeliveryOfficeName+$abfrage.SamAcco
 $data.add("email",$abfrage.EmailAddress)
 $data.add("ext",$abfrage.telephoneNumber)
 $data.add("Manager",$abfrage.Manager)
+$data.manager = $data.manager.split('='',')[1]
 
 write-warning "password will be now set to $($data.pw) for $($data.Name)" -WarningAction Inquire 
 Set-ADAccountPassword $user -Reset -NewPassword (ConvertTo-SecureString $($data.pw) -AsPlainText -Force ) 
