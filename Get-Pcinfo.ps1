@@ -24,7 +24,8 @@ param(
 [string[]]$computername,
 [switch]$name = $false
 ) 
-
+$ErrorActionPreference= 'silentlycontinue'
+trap { write-host  " [-] error  : $_ " -foregroundcolor Cyan}  
 if ($name){
 $computers  = Get-Qadcomputer $computername$ 
 }
