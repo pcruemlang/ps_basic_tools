@@ -27,7 +27,7 @@ $data.add("email",$abfrage.EmailAddress)
 $data.add("ext",$abfrage.telephoneNumber)
 $data.add("Manager",$abfrage.Manager)
 $data.manager = $data.manager.split('='',')[1]
-
+$usermail = get-aduser $env:username -properties mail
 write-warning "password will be now set to $($data.pw) for $($data.Name)" -WarningAction Inquire 
 Set-ADAccountPassword $user -Reset -NewPassword (ConvertTo-SecureString $($data.pw) -AsPlainText -Force ) 
 $body = @"
@@ -45,6 +45,6 @@ Tel. Ext. : 	[$($data.ext)]
 
 "@
 
-Send-MailMessage -From "$whoever@smtp.com" -to "$whoever@smtp.com" -Subject "your text $($data.aName)"  -body $body  -SmtpServer "exchange.com"
+Send-MailMessage -From "someone@company.com" -to $usermail.mail -Subject "your text $($data.aName)"  -body $body  -SmtpServer "exchange.com"
 }
 
