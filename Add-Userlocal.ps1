@@ -14,9 +14,10 @@ Param(
 [string]$group, 
 [Parameter(Mandatory=$True)] 
 [string]$user 
+$domain = $env:userdomain
 ) 
 $ErrorActionPreference= 'silentlycontinue'
 trap { write-host  " [-] Action cancelled : $_ " -foregroundcolor Cyan}  
 $de = [ADSI]"WinNT://$computer/$Group,group" 
-$de.psbase.Invoke("add",([ADSI]"WinNT://global/$user").path) 
+$de.psbase.Invoke("add",([ADSI]"WinNT://$domain/$user").path) 
 }
