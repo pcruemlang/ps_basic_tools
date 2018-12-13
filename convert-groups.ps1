@@ -1,4 +1,4 @@
-function Replace-groups 
+function convert-groups 
 {
 param(
 [Parameter(mandatory=$True)]
@@ -24,4 +24,4 @@ Start-Sleep –Seconds 1
  }#foreach
  
  }#function
-Replace-groups
+convert-groups
