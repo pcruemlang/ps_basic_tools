@@ -1,22 +1,27 @@
-function Remove-usergroups 
+function Replace-groups 
 {
-$ErrorActionPreference= 'silentlycontinue'
-trap { write-host  " [-] Action cancelled : $_ " -foregroundcolor Cyan}#trap
-$grouptoremove = read-host "Type group to Remove"
-$grouptoadd = read-host "Type group to Add"
-$Ou = read-host "Type OU name to use" 
-$domain = (get-addomain).DistinguishedName
-$userList = Get-ADUser -Filter * -SearchBase "OU=$Ou,$domain" | select name,samaccountname
-write-warning "this will remove all $Ou Users from $grouptoremove and add them in $grouptoadd " -WarningAction Inquire 
+param(
+[Parameter(mandatory=$True)]
+[String]$grouptoremove,
+[Parameter(mandatory=$True)]
+[String]$grouptoadd
+)
+$ErrorActionPreference= 'stop'
+trap { write-host  " [+] Action cancelled : $_ " -foregroundcolor Cyan}#trap
+$domain = (Get-ADDomain).DistinguishedName
+$userlist = Get-ADGroupmember "$grouptoremove" | select name,SamAccountName,distinguishedName
+write-warning "this will remove all Users from : `n $grouptoremove and add them in $grouptoadd " -WarningAction Inquire 
 $userList | 
 foreach-object {
- "Removing " + $_.Name + " from " +$grouptoremove 
- Remove-ADGroupMember $grouptoremove -member $_.samaccountname 
-Start-Sleep –Seconds 1 #just added for show 
- "Adding " +$_.Name+"  from " + $grouptoadd
- add-ADGroupMember $grouptoadd -member $_.samaccountname 
+write-host  "Adding : "  -foregroundcolor green 
+$_.Name +" - " +$_.samaccountname + "  to " + $grouptoadd
+# add-ADGroupMember $grouptoadd -member $_.samaccountname 
+Start-Sleep –Seconds 1
+write-host  "Removing : " -foregroundcolor red  
+$_.Name +" - " + $_.samaccountname  + " from " + $grouptoremove 
+#Remove-ADGroupMember $grouptoremove -member $_.samaccountname 
 Start-Sleep –Seconds 1
  }#foreach
  
  }#function
- Remove-usergroups
+Replace-groups
