@@ -1,0 +1,55 @@
+#requires -version 2
+<#
+.SYNOPSIS
+  Gets pc cpu processes & load 
+.DESCRIPTION
+  uses get-counter 
+.SYNTAX 
+get-cpups -computername XX111
+
+.NOTES
+  Version:        1.0
+  Author:         <Name>
+  Creation Date:  <Date>
+  Purpose/Change: Initial script development
+  
+.EXAMPLE
+  
+  InstanceName  CPU
+------------  ---
+_total        198.70 %
+idle          178.69 %
+outlook       6.67 %
+dwm           4.00 %
+mcshield      4.00 %
+setpoint      2.67 %
+
+#>
+
+#---------------------------------------------------------[Initialisations]--------------------------------------------------------
+
+#Set Error Action to Silently Continue
+$ErrorActionPreference = "SilentlyContinue"
+
+
+#----------------------------------------------------------[Declarations]----------------------------------------------------------
+
+#Script Version
+$sScriptVersion = "1.0"
+
+#-----------------------------------------------------------[Functions]------------------------------------------------------------
+
+<#
+Function get-cpups{
+  [CmdletBinding()]
+param(
+[Parameter(Mandatory=$True)]
+[string]$computername
+)
+Get-Counter -ComputerName $computername '\Process(*)\% Processor Time' `
+    | Select-Object -ExpandProperty countersamples `
+    | Select-Object -Property instancename, cookedvalue `
+    | Sort-Object -Property cookedvalue -Descending | Select-Object -First 20 `
+    | ft InstanceName,@{L='CPU';E={($_.Cookedvalue/100).toString('P')}} -AutoSize
+}
+#>
